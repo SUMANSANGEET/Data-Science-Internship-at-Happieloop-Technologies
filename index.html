@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Data Science Portfolio · Tasks 1–10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0A0F1E;--bg2:#0F1629;--bg3:#141C35;--card:#171F38;
+  --border:#1E2D55;--blue:#3B82F6;--cyan:#06B6D4;--green:#10B981;
+  --amber:#F59E0B;--red:#EF4444;--violet:#8B5CF6;--pink:#EC4899;
+  --text:#E2E8F0;--muted:#64748B;--glow:rgba(59,130,246,.15);
+  --mono:'Space Mono',monospace;--body:'DM Sans',sans-serif;--display:'Syne',sans-serif
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden;line-height:1.6}
+
+/* Grid bg */
+.bg-grid{position:fixed;inset:0;
+  background-image:linear-gradient(rgba(59,130,246,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(59,130,246,.04) 1px,transparent 1px);
+  background-size:50px 50px;pointer-events:none;z-index:0}
+
+/* Orbs */
+.orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;opacity:.18}
+.o1{width:700px;height:700px;background:var(--blue);top:-250px;left:-250px;animation:float 20s ease-in-out infinite}
+.o2{width:500px;height:500px;background:var(--violet);bottom:-150px;right:-150px;animation:float 25s ease-in-out infinite reverse}
+.o3{width:300px;height:300px;background:var(--cyan);top:45%;left:45%;animation:float 17s ease-in-out infinite 6s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-50px) scale(1.06)}66%{transform:translate(-25px,25px) scale(.95)}}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(10,15,30,.88);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);height:62px}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;height:100%}
+.nav-logo{font-family:var(--display);font-weight:800;font-size:1rem;text-decoration:none;
+  background:linear-gradient(135deg,var(--blue),var(--violet));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.875rem;
+  font-weight:500;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;
+  height:2px;background:var(--blue);transition:width .25s;border-radius:2px}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;
+  border-radius:9px;font-family:var(--body);font-weight:600;font-size:.875rem;
+  text-decoration:none;transition:all .25s;cursor:pointer;border:1px solid var(--border);
+  background:transparent;color:var(--text)}
+.btn:hover{background:var(--card);border-color:var(--blue);transform:translateY(-2px)}
+.btn-p{background:linear-gradient(135deg,var(--blue),var(--violet));
+  color:#fff;border:none;box-shadow:0 4px 20px rgba(59,130,246,.3)}
+.btn-p:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(59,130,246,.45);
+  background:linear-gradient(135deg,var(--blue),var(--violet));border:none}
+
+/* HERO */
+header{min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;z-index:1}
+.hero-chip{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.28);
+  border-radius:100px;padding:6px 18px;font-family:var(--mono);font-size:.78rem;
+  color:var(--blue);margin-bottom:28px;animation:fd .6s ease both}
+.live-dot{width:7px;height:7px;background:var(--green);border-radius:50%;
+  animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.45)}50%{box-shadow:0 0 0 8px rgba(16,185,129,0)}}
+h1{font-family:var(--display);font-size:clamp(3rem,8vw,6rem);font-weight:800;
+  line-height:1.02;margin-bottom:20px;
+  background:linear-gradient(140deg,#fff 0%,#93C5FD 40%,#818CF8 70%,#C084FC 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:fd .8s ease .1s both}
+.sub{font-size:1.1rem;color:var(--muted);max-width:580px;
+  animation:fd .8s ease .2s both;margin-bottom:36px}
+.badges{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;
+  animation:fd .8s ease .3s both;margin-bottom:44px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:6px 15px;
+  border-radius:8px;font-size:.78rem;font-family:var(--mono);font-weight:700;
+  border:1px solid;transition:transform .2s,box-shadow .2s}
+.badge:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.bb{background:rgba(59,130,246,.13);border-color:rgba(59,130,246,.35);color:#93C5FD}
+.bc{background:rgba(6,182,212,.13);border-color:rgba(6,182,212,.35);color:#67E8F9}
+.bg{background:rgba(16,185,129,.13);border-color:rgba(16,185,129,.35);color:#6EE7B7}
+.ba{background:rgba(245,158,11,.13);border-color:rgba(245,158,11,.35);color:#FCD34D}
+.bv{background:rgba(139,92,246,.13);border-color:rgba(139,92,246,.35);color:#C4B5FD}
+.bp{background:rgba(236,72,153,.13);border-color:rgba(236,72,153,.35);color:#F9A8D4}
+.cta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;
+  animation:fd .8s ease .4s both}
+@keyframes fd{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;margin:0 0 100px}
+.s-item{background:var(--card);padding:30px 20px;text-align:center;transition:background .2s}
+.s-item:hover{background:var(--bg3)}
+.s-num{font-family:var(--display);font-size:2.6rem;font-weight:800;display:block;line-height:1;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.s-label{color:var(--muted);font-size:.82rem;margin-top:7px;font-weight:500}
+
+/* SECTIONS */
+.section{padding:80px 0;position:relative;z-index:1}
+.sec-label{font-family:var(--mono);font-size:.74rem;color:var(--blue);
+  letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}
+.sec-title{font-family:var(--display);font-size:clamp(1.9rem,4vw,2.9rem);
+  font-weight:800;line-height:1.08;margin-bottom:14px}
+.sec-sub{color:var(--muted);max-width:540px;font-size:1rem}
+
+/* TASKS GRID */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:20px;margin-top:48px}
+.tcard{background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:28px;position:relative;overflow:hidden;cursor:default;
+  transition:transform .3s,box-shadow .3s,border-color .3s}
+.tcard:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.tcard::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;
+  border-radius:16px;background:linear-gradient(135deg,var(--glow),transparent)}
+.tcard:hover::before{opacity:1}
+.tcard:hover{border-color:rgba(59,130,246,.38)}
+.tc-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px}
+.tc-icon{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;
+  justify-content:center;font-size:1.5rem;flex-shrink:0}
+.tc-num{font-family:var(--mono);font-size:.7rem;color:var(--muted);
+  background:var(--bg3);padding:4px 10px;border-radius:6px;border:1px solid var(--border)}
+.tc-title{font-family:var(--display);font-size:1.05rem;font-weight:700;margin-bottom:8px}
+.tc-desc{color:var(--muted);font-size:.875rem;line-height:1.55;margin-bottom:16px}
+.tc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.tag{font-size:.7rem;font-family:var(--mono);padding:3px 10px;border-radius:6px;border:1px solid}
+.tc-bar-bg{height:4px;border-radius:2px;background:var(--bg3);margin-top:16px}
+.tc-bar{height:100%;border-radius:2px;width:0;transition:width 1.3s cubic-bezier(.4,0,.2,1) .2s}
+.tc-foot{display:flex;align-items:center;justify-content:space-between;
+  margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.tc-meta{font-size:.78rem;color:var(--muted)}
+.tc-status{font-size:.72rem;font-family:var(--mono);padding:4px 10px;border-radius:6px;
+  background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.28);color:#6EE7B7}
+
+/* SKILLS */
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:16px;margin-top:40px}
+.skill-item{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:20px;transition:border-color .2s}
+.skill-item:hover{border-color:rgba(59,130,246,.35)}
+.sk-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sk-name{font-weight:600;font-size:.95rem}
+.sk-pct{font-family:var(--mono);font-size:.8rem;color:var(--blue)}
+.sk-track{height:7px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.sk-fill{height:100%;border-radius:4px;width:0;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
+
+/* TOOLS */
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:12px;margin-top:32px}
+.tool-chip{display:flex;flex-direction:column;align-items:center;gap:9px;
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:20px 12px;font-size:.78rem;font-family:var(--mono);color:var(--muted);
+  transition:all .22s;text-align:center}
+.tool-chip:hover{border-color:rgba(59,130,246,.4);color:var(--text);
+  background:var(--bg3);transform:translateY(-4px)}
+.tool-icon{font-size:1.7rem}
+
+/* CODE */
+.code{background:var(--bg3);border:1px solid var(--border);border-radius:12px;
+  padding:20px 24px;font-family:var(--mono);font-size:.79rem;color:#93C5FD;
+  line-height:1.75;margin-top:16px;overflow-x:auto}
+.cm{color:#475569}.kw{color:#F472B6}.fn{color:#34D399}.st{color:#FCD34D}
+
+/* INSTALL GRID */
+.install-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
+.install-card{background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:28px}
+.install-card h3{font-family:var(--display);font-size:1.1rem;margin-bottom:16px}
+
+/* CTA */
+.cta-section{text-align:center;padding:100px 24px;
+  background:linear-gradient(135deg,rgba(59,130,246,.05),rgba(139,92,246,.05));
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  position:relative;z-index:1}
+
+/* FOOTER */
+footer{text-align:center;padding:40px 24px;color:var(--muted);
+  font-size:.85rem;position:relative;z-index:1}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .stats{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .tgrid{grid-template-columns:1fr}
+  .install-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){.stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">DS Portfolio</a>
+    <ul class="nav-links">
+      <li><a href="#tasks">Tasks</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#tools">Stack</a></li>
+      <li><a href="#install">Deploy</a></li>
+    </ul>
+    <a href="https://github.com/your-username/data-science-portfolio" class="btn" target="_blank">★ GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header>
+  <div class="hero-chip"><span class="live-dot"></span>10 Tasks · Python · Pandas · Streamlit</div>
+  <h1>Data Science<br/>Portfolio</h1>
+  <p class="sub">End-to-end data science coursework — statistical analysis, data cleaning, machine learning, hypothesis testing &amp; interactive Streamlit deployment.</p>
+  <div class="badges">
+    <span class="badge bb">📊 Statistical Analysis</span>
+    <span class="badge bc">🧹 Data Cleaning</span>
+    <span class="badge bg">📈 Linear Regression</span>
+    <span class="badge ba">🧪 Hypothesis Testing</span>
+    <span class="badge bv">🎨 Visualisation</span>
+    <span class="badge bp">🐼 Pandas Mastery</span>
+  </div>
+  <div class="cta">
+    <a href="#tasks" class="btn btn-p">🚀 Explore Tasks</a>
+    <a href="https://github.com/your-username/data-science-portfolio" class="btn" target="_blank">📂 GitHub Repo</a>
+    <a href="https://your-app.streamlit.app" class="btn" target="_blank">⚡ Live Streamlit App</a>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="wrap">
+  <div class="stats reveal" id="stats">
+    <div class="s-item"><span class="s-num" data-t="10">0</span><div class="s-label">Tasks Completed</div></div>
+    <div class="s-item"><span class="s-num" data-t="450">0</span><div class="s-label">Notebook Cells</div></div>
+    <div class="s-item"><span class="s-num" data-t="3500">0</span><div class="s-label">Lines of Code</div></div>
+    <div class="s-item"><span class="s-num" data-t="40">0</span><div class="s-label">Pandas Methods</div></div>
+  </div>
+</div>
+
+<!-- TASKS -->
+<section class="section" id="tasks">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="sec-label">// coursework</div>
+      <h2 class="sec-title">10 Data Science Tasks</h2>
+      <p class="sec-sub">Each task is a self-contained Jupyter notebook with code, visualisations, and an interactive Streamlit view.</p>
+    </div>
+    <div class="tgrid" id="tgrid"></div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section" id="skills">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="sec-label">// competencies</div>
+      <h2 class="sec-title">Skills Demonstrated</h2>
+    </div>
+    <div class="skill-grid" id="sgrid"></div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="section" id="tools">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="sec-label">// tech stack</div>
+      <h2 class="sec-title">Tools &amp; Libraries</h2>
+    </div>
+    <div class="tool-grid" id="tgridtools"></div>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section class="section" id="install">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="sec-label">// deployment</div>
+      <h2 class="sec-title">Quick Start</h2>
+    </div>
+    <div class="install-grid reveal">
+      <div class="install-card">
+        <h3 style="color:var(--cyan)">⚡ Run Locally</h3>
+        <div class="code"><span class="cm"># Clone &amp; install</span>
+git clone github.com/your-username/portfolio
+<span class="kw">cd</span> portfolio
+pip install -r requirements.txt
+
+<span class="cm"># Launch all 10 tasks</span>
+streamlit <span class="fn">run</span> app.py
+<span class="cm"># Open: http://localhost:8501</span></div>
+      </div>
+      <div class="install-card">
+        <h3 style="color:var(--violet)">🌐 Deploy Free to Cloud</h3>
+        <div class="code"><span class="cm"># 1. Push to GitHub</span>
+git push origin main
+
+<span class="cm"># 2. Go to share.streamlit.io</span>
+<span class="cm"># 3. Connect your repo</span>
+<span class="cm"># 4. Set app.py as entry</span>
+<span class="cm"># 5. Click Deploy</span>
+<span class="cm"># Public URL in ~2 minutes!</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="sec-label" style="text-align:center;margin-bottom:14px">// open source</div>
+  <h2 style="font-family:var(--display);font-size:2.5rem;font-weight:800;margin-bottom:14px">Star on GitHub ⭐</h2>
+  <p style="color:var(--muted);margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto">
+    If this portfolio helped you or inspired your work, drop a star on the repo!
+  </p>
+  <a href="https://github.com/your-username/data-science-portfolio" class="btn btn-p" target="_blank" style="font-size:1rem;padding:14px 32px">
+    ⭐ Star Repository
+  </a>
+</div>
+
+<footer>
+  <p>Built with Python · Pandas · Matplotlib · Seaborn · Scikit-Learn · Streamlit</p>
+  <p style="margin-top:8px">MIT License · 2024 · Data Science Portfolio</p>
+</footer>
+
+<script>
+const TASKS=[
+  {num:'01',icon:'📊',title:'Statistical Analysis',
+   desc:'Comprehensive analysis of the Iris dataset — descriptive stats, ANOVA, normality testing, and 6 chart types.',
+   tags:['ANOVA','Shapiro-Wilk','Pearson r','Seaborn'],color:'#3B82F6',
+   tc:{bg:'rgba(59,130,246,.12)',bo:'rgba(59,130,246,.35)',c:'#93C5FD'},
+   meta:'150 rows · 4 features · 3 species',cells:37},
+  {num:'02',icon:'🧹',title:'Data Cleaning',
+   desc:'Transform a messy retail dataset with 12 quality issues into a clean, validated DataFrame with audit trail.',
+   tags:['Imputation','Dedup','.fillna()','.str.*'],color:'#06B6D4',
+   tc:{bg:'rgba(6,182,212,.12)',bo:'rgba(6,182,212,.35)',c:'#67E8F9'},
+   meta:'1,200 rows · 12 issues · 99.8% clean',cells:42},
+  {num:'03',icon:'🔭',title:'Exploratory EDA',
+   desc:'Systematic exploration — univariate, bivariate, temporal trends and correlation analysis.',
+   tags:['Univariate','Bivariate','Corr.','Resample'],color:'#10B981',
+   tc:{bg:'rgba(16,185,129,.12)',bo:'rgba(16,185,129,.35)',c:'#6EE7B7'},
+   meta:'20 variables · 12 chart types',cells:40},
+  {num:'04',icon:'📈',title:'Linear Regression',
+   desc:'Simple OLS, multiple regression, Ridge, Lasso with 5-fold CV and full diagnostic plots.',
+   tags:['OLS','Ridge','Lasso','5-Fold CV'],color:'#8B5CF6',
+   tc:{bg:'rgba(139,92,246,.12)',bo:'rgba(139,92,246,.35)',c:'#C4B5FD'},
+   meta:'R²=0.684 · RMSE=$3,549',cells:43},
+  {num:'05',icon:'🎨',title:'Seaborn Visualisation',
+   desc:'Master Seaborn\'s statistical API — 20+ chart types from histograms to clustered heatmaps.',
+   tags:['FacetGrid','histplot','violin','heatmap'],color:'#EC4899',
+   tc:{bg:'rgba(236,72,153,.12)',bo:'rgba(236,72,153,.35)',c:'#F9A8D4'},
+   meta:'20+ chart types · 18 panels',cells:38},
+  {num:'06',icon:'🧪',title:'Hypothesis Testing',
+   desc:'8 statistical tests with effect sizes, confidence intervals, and power analysis curves.',
+   tags:['t-test','ANOVA','Chi²','Power'],color:'#F59E0B',
+   tc:{bg:'rgba(245,158,11,.12)',bo:'rgba(245,158,11,.35)',c:'#FCD34D'},
+   meta:'8 test types · Cohen\'s d · power curves',cells:43},
+  {num:'07',icon:'🖼️',title:'Matplotlib Visualisation',
+   desc:'Low-level Matplotlib mastery — 30+ chart types, GridSpec dashboards, custom annotations.',
+   tags:['GridSpec','Annotations','Subplots','GCA'],color:'#3B82F6',
+   tc:{bg:'rgba(59,130,246,.12)',bo:'rgba(59,130,246,.35)',c:'#93C5FD'},
+   meta:'30+ chart types · GridSpec dashboard',cells:32},
+  {num:'08',icon:'🔗',title:'Correlation Matrix',
+   desc:'Multi-method correlation — Pearson, Spearman, Kendall with significance and hierarchical clustering.',
+   tags:['Pearson','Spearman','Kendall','Ward'],color:'#06B6D4',
+   tc:{bg:'rgba(6,182,212,.12)',bo:'rgba(6,182,212,.35)',c:'#67E8F9'},
+   meta:'9 features · 3 methods · p-value matrix',cells:40},
+  {num:'09',icon:'🧼',title:'Pandas Data Cleaning',
+   desc:'Advanced pipeline — 14 issue categories, 40+ Pandas methods, 20 validation assertions, audit log.',
+   tags:['40+ Methods','14 Issues','Winsorise','Audit'],color:'#10B981',
+   tc:{bg:'rgba(16,185,129,.12)',bo:'rgba(16,185,129,.35)',c:'#6EE7B7'},
+   meta:'1,200 rows · 40+ methods · 20 checks',cells:38},
+  {num:'10',icon:'🐼',title:'Data Manipulation',
+   desc:'Complete Pandas toolkit — filter, sort, groupby, merge, reshape, window functions, 10 business questions.',
+   tags:['GroupBy','Merge','Rolling','Pivot'],color:'#8B5CF6',
+   tc:{bg:'rgba(139,92,246,.12)',bo:'rgba(139,92,246,.35)',c:'#C4B5FD'},
+   meta:'1,500 rows · 15 techniques · 10 questions',cells:60},
+];
+
+const SKILLS=[
+  {name:'Data Wrangling (Pandas)',      pct:100,color:'#3B82F6'},
+  {name:'Statistical Analysis',         pct:92, color:'#8B5CF6'},
+  {name:'Data Visualisation',           pct:100,color:'#06B6D4'},
+  {name:'Machine Learning',             pct:68, color:'#10B981'},
+  {name:'Hypothesis Testing',           pct:95, color:'#F59E0B'},
+  {name:'Feature Engineering',          pct:82, color:'#EC4899'},
+  {name:'Data Cleaning',                pct:100,color:'#EF4444'},
+  {name:'Interactive Dashboards',       pct:96, color:'#A78BFA'},
+];
+
+const TOOLS=[
+  {icon:'🐍',name:'Python 3.10'},{icon:'🐼',name:'Pandas 2.0'},
+  {icon:'🔢',name:'NumPy'},{icon:'📊',name:'Matplotlib'},
+  {icon:'🌊',name:'Seaborn'},{icon:'🔬',name:'SciPy'},
+  {icon:'🤖',name:'Scikit-Learn'},{icon:'⚡',name:'Streamlit'},
+  {icon:'📓',name:'Jupyter'},{icon:'🐙',name:'GitHub'},
+];
+
+// Render task cards
+const tgrid=document.getElementById('tgrid');
+TASKS.forEach((t,i)=>{
+  const tags=t.tags.map(tg=>`<span class="tag" style="background:${t.tc.bg};border-color:${t.tc.bo};color:${t.tc.c}">${tg}</span>`).join('');
+  const el=document.createElement('div');
+  el.className='tcard';
+  el.style.cssText=`animation:fu .6s ease ${i*.07}s both`;
+  el.innerHTML=`
+    <div class="tc-head">
+      <div class="tc-icon" style="background:${t.color}20;border:1px solid ${t.color}40">${t.icon}</div>
+      <span class="tc-num">Task ${t.num}</span>
+    </div>
+    <div class="tc-title">${t.title}</div>
+    <div class="tc-desc">${t.desc}</div>
+    <div class="tc-tags">${tags}</div>
+    <div class="tc-bar-bg"><div class="tc-bar" style="background:linear-gradient(90deg,${t.color},${t.color}77)" data-w="100%"></div></div>
+    <div class="tc-foot">
+      <div class="tc-meta">${t.meta}</div>
+      <span class="tc-status">✅ ${t.cells} cells</span>
+    </div>`;
+  tgrid.appendChild(el);
+});
+
+// Render skills
+const sgrid=document.getElementById('sgrid');
+SKILLS.forEach((s,i)=>{
+  const el=document.createElement('div');
+  el.className='skill-item reveal';
+  el.style.cssText=`animation-delay:${i*.05}s`;
+  el.innerHTML=`
+    <div class="sk-head">
+      <span class="sk-name">${s.name}</span>
+      <span class="sk-pct">${s.pct}%</span>
+    </div>
+    <div class="sk-track">
+      <div class="sk-fill" style="background:linear-gradient(90deg,${s.color},${s.color}77)" data-w="${s.pct}%"></div>
+    </div>`;
+  sgrid.appendChild(el);
+});
+
+// Render tools
+const ttools=document.getElementById('tgridtools');
+TOOLS.forEach(t=>{
+  const el=document.createElement('div');
+  el.className='tool-chip reveal';
+  el.innerHTML=`<span class="tool-icon">${t.icon}</span>${t.name}`;
+  ttools.appendChild(el);
+});
+
+// Counter animation
+let counted=false;
+function animateCounters(){
+  if(counted)return; counted=true;
+  document.querySelectorAll('.s-num[data-t]').forEach(el=>{
+    const target=parseInt(el.dataset.t),dur=1800,step=16;
+    let cur=0;const inc=target/(dur/step);
+    const t=setInterval(()=>{
+      cur=Math.min(cur+inc,target);
+      el.textContent=cur>=1000?(cur/1000).toFixed(1)+'k+':Math.floor(cur)+(target===10?'':'+');
+      if(cur>=target){
+        el.textContent=target>=1000?(target/1000).toFixed(1)+'k+':target+(target>10?'+':'');
+        clearInterval(t);
+      }
+    },step);
+  });
+}
+
+// Intersection Observer for all reveal + bar animations
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.classList.add('vis');
+    e.target.querySelectorAll('[data-w]').forEach(b=>{
+      setTimeout(()=>b.style.width=b.dataset.w,150);
+    });
+    if(e.target.id==='stats')animateCounters();
+  });
+},{threshold:.1});
+
+document.querySelectorAll('.reveal,.tcard,.skill-item,.tool-chip').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
