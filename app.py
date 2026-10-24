@@ -1306,12 +1306,12 @@ elif page == "t10":
         with c1:
             st.markdown("**Age Groups (pd.cut)**")
             st.dataframe(df_bin['age_group'].value_counts().sort_index()
-                         .reset_index().rename(columns={'index':'age_group','age_group':'count'}),
+                         .rename_axis('age_group').reset_index(name='count'),
                          use_container_width=True)
         with c2:
             st.markdown("**Spend Quartiles (pd.qcut)**")
             st.dataframe(df_bin['spend_quartile'].value_counts().sort_index()
-                         .reset_index().rename(columns={'index':'spend_quartile','spend_quartile':'count'}),
+                         .rename_axis('spend_quartile').reset_index(name='count'),
                          use_container_width=True)
 
     with tab4:
