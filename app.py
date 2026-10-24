@@ -22,8 +22,8 @@ warnings.filterwarnings("ignore")
 
 # ── Page config ─────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Data Science Tasks 1–10",
-    page_icon="🔬",
+    page_title="Data Science Lab | Tasks 01–10",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -33,6 +33,48 @@ C = dict(blue='#2563EB', teal='#0891B2', green='#059669',
          amber='#D97706', red='#DC2626', violet='#7C3AED',
          pink='#DB2777',  gray='#6B7280', dark='#1E293B',
          lime='#65A30D',  orange='#EA580C')
+
+# ── Professional branding & responsive dashboard styling ────────────────────
+st.markdown("""
+<style>
+:root { --ds-ink:#10233f; --ds-blue:#2563eb; --ds-cyan:#06b6d4; --ds-muted:#64748b; }
+.block-container { padding-top: 1.35rem; padding-bottom: 2.5rem; max-width: 1500px; }
+[data-testid="stSidebar"] { border-right: 1px solid rgba(100,116,139,.20); }
+.ds-brand { display:flex; align-items:center; gap:11px; padding:10px 4px 16px; }
+.ds-mark { width:48px; height:48px; border-radius:14px; display:flex; align-items:center;
+           justify-content:center; color:white; font-size:17px; font-weight:850; letter-spacing:-1px;
+           background:linear-gradient(135deg,#2563eb 0%,#06b6d4 100%);
+           box-shadow:0 7px 18px rgba(37,99,235,.24); }
+.ds-brand-name { color:var(--ds-ink); font-size:17px; font-weight:800; line-height:1.1; }
+.ds-brand-sub { color:var(--ds-muted); font-size:10px; letter-spacing:1.5px; font-weight:700; margin-top:5px; }
+.ds-hero { padding:25px 28px; border-radius:20px; color:white; margin:4px 0 22px;
+           background:linear-gradient(115deg,#10233f 0%,#173f78 58%,#087e9b 100%);
+           border:1px solid rgba(255,255,255,.12); }
+.ds-eyebrow { text-transform:uppercase; letter-spacing:2px; font-size:11px; font-weight:800;
+              color:#9be7f4; margin-bottom:8px; }
+.ds-hero h1 { color:white !important; font-size:clamp(25px,3vw,38px) !important;
+              line-height:1.12 !important; margin:0 0 10px !important; }
+.ds-hero p { color:#dceafe; margin:0; font-size:15px; max-width:850px; }
+.ds-pill { display:inline-block; margin-top:17px; padding:6px 10px; border-radius:999px;
+           color:#e0f2fe; background:rgba(255,255,255,.12); font-size:11px; font-weight:700; }
+.ds-section { color:var(--ds-ink); font-size:20px; font-weight:800; margin:8px 0 12px; }
+.ds-card { border:1px solid #e2e8f0; border-radius:14px; padding:15px 16px; background:rgba(248,250,252,.8);
+           min-height:124px; margin-bottom:12px; }
+.ds-card .icon { font-size:21px; }
+.ds-card .name { color:#1e293b; font-size:15px; font-weight:800; margin:7px 0 5px; }
+.ds-card .desc { color:#64748b; font-size:12px; line-height:1.5; }
+div[data-testid="stMetric"] { border:1px solid #e2e8f0; padding:14px 16px; border-radius:13px;
+                              background:rgba(248,250,252,.75); }
+div[data-testid="stMetricLabel"] { color:#64748b; }
+div[data-testid="stMetricValue"] { color:#10233f; }
+.stTabs [data-baseweb="tab-list"] { gap:8px; }
+.stTabs [data-baseweb="tab"] { border-radius:9px 9px 0 0; }
+@media (max-width: 700px) {
+ .ds-hero { padding:20px; border-radius:15px; }
+ .ds-card { min-height:unset; }
+}
+</style>
+""", unsafe_allow_html=True)
 
 plt.rcParams.update({'figure.facecolor': 'white',
                      'axes.spines.top': False, 'axes.spines.right': False})
@@ -123,13 +165,22 @@ TASKS = {
 }
 
 with st.sidebar:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Pandas_logo.svg/320px-Pandas_logo.svg.png",
-             width=140)
-    st.markdown("## 📚 Data Science Tasks")
+    # Original, self-contained text logo: no external image or asset required.
+    st.markdown("""
+    <div class="ds-brand">
+      <div class="ds-mark">DS<span style="font-size:10px">+</span></div>
+      <div>
+        <div class="ds-brand-name">Data Science Lab</div>
+        <div class="ds-brand-sub">ANALYTICS · INSIGHTS</div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown("---")
+    st.markdown("**Explore the workspace**")
     selection = st.radio("Navigate", list(TASKS.keys()), label_visibility="collapsed")
     st.markdown("---")
-    st.caption("Built with Streamlit · Tasks 1–10")
+    st.caption("Built with Python · Streamlit")
+    st.caption("10 interactive learning modules")
 
 page = TASKS[selection]
 
@@ -137,10 +188,24 @@ page = TASKS[selection]
 # HOME
 # ════════════════════════════════════════════════════════════════════════════
 if page == "home":
-    st.title("🔬 Data Science Coursework — Tasks 1–10")
-    st.markdown("### Interactive Streamlit Dashboard")
-    st.markdown("Select any task from the **sidebar** to explore its interactive analysis.")
-    st.markdown("---")
+    st.markdown("""
+    <section class="ds-hero">
+      <div class="ds-eyebrow">Interactive analytics workspace</div>
+      <h1>Data Science Tasks 01–10</h1>
+      <p>Explore data quality, statistical evidence, visual patterns and predictive modelling in one recruiter-friendly portfolio dashboard.</p>
+      <span class="ds-pill">PYTHON&nbsp; / &nbsp;STATISTICS&nbsp; / &nbsp;MACHINE LEARNING</span>
+    </section>
+    """, unsafe_allow_html=True)
+
+    # These are generated demonstration datasets, not live company/business data.
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("Learning modules", "10", help="Ten task areas accessible from the sidebar.")
+    k2.metric("Core toolset", "Python + SQL", help="This app primarily demonstrates Python analytics workflows.")
+    k3.metric("Analysis modes", "20+", help="Multiple statistical tests, chart types and data operations.")
+    k4.metric("Data status", "Demo data", help="The built-in Iris and retail datasets are generated for demonstration.")
+
+    st.markdown('<div class="ds-section">Explore the modules</div>', unsafe_allow_html=True)
+    st.caption("Choose a module below or use the sidebar navigation. Interactive controls let you change variables, methods and model settings.")
     cols = st.columns(3)
     tasks_info = [
         ("📊","Task 1","Statistical Analysis","Iris dataset · ANOVA · normality tests · 6 chart types"),
@@ -157,11 +222,10 @@ if page == "home":
     for i, (icon, title, subtitle, desc) in enumerate(tasks_info):
         with cols[i % 3]:
             st.markdown(f"""
-<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;
-padding:16px;margin-bottom:12px;">
-<h4 style="margin:0;color:#1E293B">{icon} {title}</h4>
-<p style="margin:4px 0 6px;font-weight:600;color:#2563EB">{subtitle}</p>
-<p style="margin:0;font-size:0.83rem;color:#6B7280">{desc}</p>
+<div class="ds-card">
+<div class="icon">{icon}</div>
+<div class="name">{title} · {subtitle}</div>
+<div class="desc">{desc}</div>
 </div>""", unsafe_allow_html=True)
 
 # ════════════════════════════════════════════════════════════════════════════
